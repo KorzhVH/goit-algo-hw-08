@@ -2,12 +2,12 @@ import heapq
 
 
 def merge_cables(cable_list):
-    # Note. If number of cables is even, then minimal cost = sum of all len(cables).
-    # If uneven, we have to find max(cable_list) and remove it, as merging it will be costlier, then any other cable.
-    # Thus, we don't, and it will set it's merge price to 0.
-    # The order in even list doesn't matter. It's a sum of all, after all.
+    uneven_check = False
+    longest_cable = 0
     if len(cable_list) % 2 == 1:
-        cable_list.remove(max(cable_list))
+        uneven_check = True
+        longest_cable = max(cable_list)
+        cable_list.remove(longest_cable)
     for cable in cable_list:
         if cable <= 0:
             return print("One of the cables is of negative or 0 length")
@@ -17,6 +17,8 @@ def merge_cables(cable_list):
         cable1 = heapq.heappop(cable_list)
         cable2 = heapq.heappop(cable_list)
         total_sum += (cable1 + cable2)
+    if uneven_check:
+        total_sum += longest_cable
     return total_sum
 
 
